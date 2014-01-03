@@ -48,9 +48,9 @@ class Rfc6570GeneratorTest extends \PHPUnit_Framework_TestCase
     public function getTestPlaceholderData()
     {
         return array(
-            array('/foo/foobar/?{&bar}', array('foo' => 'foobar', 'bar' => 'barbar')),
-            array('/foo/foobar/?{&bar%5B%5D*}', array('foo' => 'foobar', 'bar' => array())),
-            array('/foo/{placeholder}/?{&bar}', array('foo' => '{placeholder}', 'bar' => 'barbar')),
+            array('/foo/foobar/{?bar}', array('foo' => 'foobar', 'bar' => 'barbar')),
+            array('/foo/foobar/{?bar%5B%5D*}', array('foo' => 'foobar', 'bar' => array())),
+            array('/foo/{placeholder}/{?bar}', array('foo' => '{placeholder}', 'bar' => 'barbar')),
         );
     }
 
