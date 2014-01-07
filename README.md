@@ -38,7 +38,7 @@ $templatedUri      = $templateGenerator->generate('hautelook_demo_route', array(
 This will produce a link similar to:
 
 ```
-/demo?{&page}{&sort%5B%5D*}{&filter%5B%5D*}
+/demo{?page,sort%5B%5D*,filter%5B%5D*}
 ```
 
 ## Bundle

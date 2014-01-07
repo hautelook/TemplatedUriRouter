@@ -155,14 +155,15 @@ class Rfc6570Generator extends UrlGenerator implements UrlGeneratorInterface, Co
         // add a query string if needed
         $extra = array_diff_key($parameters, $variables, $defaults);
         if (is_array($extra) && !empty($extra)) {
-            $url .= '?';
+            $parts = array();
             foreach ($extra as $key => $value) {
                 if (is_scalar($value)) {
-                    $url .= '{&' . $key . '}';
+                    $parts[] = urlencode($key);
                 } elseif (is_array($value)) {
-                    $url .= '{&' . $key . '%5B%5D*}';
+                    $parts[] = urlencode($key) . '%5B%5D*';
                 }
             }
+            $url .= '{?' . implode(',', $parts) . '}';
         }
 
         return $url;
