@@ -33,6 +33,7 @@ class Rfc6570GeneratorTest extends \PHPUnit_Framework_TestCase
                 'foo'    => '123',
             ),
             array(
+                'foo' => '\d+'
             )
         ));
 
@@ -48,8 +49,8 @@ class Rfc6570GeneratorTest extends \PHPUnit_Framework_TestCase
     public function getTestPlaceholderData()
     {
         return array(
-            array('/foo/foobar/?{&bar}', array('foo' => 'foobar', 'bar' => 'barbar')),
-            array('/foo/foobar/?{&bar%5B%5D*}', array('foo' => 'foobar', 'bar' => array())),
+            array('/foo/456/?{&bar}', array('foo' => '456', 'bar' => 'barbar')),
+            array('/foo/456/?{&bar%5B%5D*}', array('foo' => '456', 'bar' => array())),
             array('/foo/{placeholder}/?{&bar}', array('foo' => '{placeholder}', 'bar' => 'barbar')),
         );
     }

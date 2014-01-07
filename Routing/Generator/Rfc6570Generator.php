@@ -53,7 +53,7 @@ class Rfc6570Generator extends UrlGenerator implements UrlGeneratorInterface, Co
             if ('variable' === $token[0]) {
                 if (!$optional || !array_key_exists($token[3], $defaults) || (string) $mergedParams[$token[3]] !== (string) $defaults[$token[3]]) {
                     // check requirement
-                    if (null !== $this->strictRequirements && !preg_match('#^'.$token[2].'$#', $mergedParams[$token[3]])) {
+                    if (null !== $this->strictRequirements && !$this->isPlaceHolder($mergedParams[$token[3]]) && !preg_match('#^'.$token[2].'$#', $mergedParams[$token[3]])) {
                         $message = sprintf('Parameter "%s" for route "%s" must match "%s" ("%s" given) to generate a corresponding URL.', $token[3], $name, $token[2], $mergedParams[$token[3]]);
                         if ($this->strictRequirements) {
                             throw new InvalidParameterException($message);
@@ -166,5 +166,9 @@ class Rfc6570Generator extends UrlGenerator implements UrlGeneratorInterface, Co
         }
 
         return $url;
+    }
+
+    private function isPlaceHolder($param) {
+        return (substr($param, 0, 1 ) == '{' && substr($param, -1 ) == '}');
     }
 }
