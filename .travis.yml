@@ -7,21 +7,28 @@ cache:
         - $HOME/.composer/cache
 
 php:
-  - 5.3
   - 5.4
   - 5.5
   - 5.6
-  - hhvm
+  - 7.0
+  - 7.1
+  - 7.2
 
 matrix:
   include:
-    - php: 5.3
-      env: dependencies=lowest
+    - php: 5.6
+      env: SYMFONY_VERSION=^3.0 DEPENDENCIES=dev COMPOSER_FLAGS="--prefer-stable"
+    - php: 7.1
+      env: SYMFONY_VERSION=^4.0
+    - php: 7.2
+      env: SYMFONY_VERSION=^4.0
 
-install:
-  - if [ -z "$dependencies" ]; then travis_retry composer install; fi;
-  - if [ "$dependencies" = "lowest" ]; then travis_retry composer update --prefer-lowest; fi;
-  - composer show -i
+before_install:
+  - composer self-update
+  - if [ "$SYMFONY_VERSION" != "" ]; then composer require --dev --no-update symfony/framework-bundle=$SYMFONY_VERSION; fi
+  - if [ "$DEPENDENCIES" = "dev" ]; then perl -pi -e 's/^}$/,"minimum-stability":"dev"}/' composer.json; fi;
+
+install: composer update $COMPOSER_FLAGS
 
 script:
   - phpunit --coverage-text
